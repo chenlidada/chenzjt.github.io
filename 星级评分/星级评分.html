@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>星级评分</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            border: 0;
+        }
+
+        .box {
+            width: 500px;
+            height: 150px;
+            /*border: 1px solid red;*/
+            margin: 10px auto;
+            padding-top: 10px;
+            position: relative;
+        }
+
+        span {
+            font-size: 18px;
+            position: absolute;
+            top: 18px;
+            left: 10px;
+        }
+
+        ul {
+            width: 150px;
+            height: 30px;
+            list-style: none;
+            display: flex;
+            flex-direction: row;
+            position: absolute;
+            top: 10px;
+            left: 100px;
+        }
+
+        li {
+            width: 30px;
+            /*float: left;*/
+            background-image: url("image/星1.png");
+            background-repeat: no-repeat;
+            background-size: contain;
+        }
+
+        p {
+            width: 200px;
+            padding:10px;
+            border: 1px solid aqua;
+            color: black;
+            display: none;
+        }
+
+        p:nth-of-type(1) {
+            position: absolute;
+            top: 50px;
+            left: 70px;
+        }
+
+        p:nth-of-type(2) {
+            position: absolute;
+            top: 10px;
+            left: 280px;
+        }
+    </style>
+</head>
+<body>
+<div class="box">
+    <span>星级评分:</span>
+    <ul>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+    </ul>
+    <p></p>
+    <p></p>
+</div>
+</body>
+<script>
+    //获取元素
+    var lis = document.querySelectorAll('li');
+    var tp = document.querySelectorAll('p');
+
+    var click = false; //标记，判断星是否被点击，默认没被点击
+    for (var i = 0; i < lis.length; i++) {
+        lis[i].index = i;//保存索引值
+        //鼠标事件
+        lis[i].onmouseover = function () {
+
+            //清除之前的操作
+           for(var k=0;k<lis.length;k++){
+               lis[k].style.backgroundImage = 'url(image/星1.png)';
+               tp[0].innerHTML = '';
+               tp[1].innerHTML='';
+               tp[1].style.display='none';
+           }
+            // if (!click) { //如果没被点击
+                //从0到当前鼠标悬停的li的下标(包括)
+                for (var j = 0; j <= this.index; j++) {
+                    
+                    //修改图片
+                    lis[j].style.backgroundImage = 'url(image/星2.png)';
+                    //鼠标点击事件
+                    lis[j].onclick = function () {
+                        click = true; //标志改为已点击
+                        //显示第二个评价框及内容
+                        tp[1].style.display = 'block';
+                        tp[1].innerHTML =  tp[0].innerHTML;
+                        //隐藏第一个评价框
+                        tp[0].style.display = 'none';
+                    // }
+                }
+                //修改评价框的内容
+                switch (this.index) {
+                    case 0:
+                        tp[0].innerHTML = '一分评价:<br>商品与描述完全不符，超级差评！';
+                        break;
+                    case 1:
+                        tp[0].innerHTML = '二分评价:<br>商品与描述有出入，差评';
+                        break;
+                    case 2:
+                        tp[0].innerHTML = '三分评价:<br>商品还可以，一般';
+                        break;
+                    case 3:
+                        tp[0].innerHTML = '四分评价:<br>商品与描述一样，中评';
+                        break;
+                    case 4:
+                        tp[0].innerHTML = '五分评价:<br>商品超级棒，好评';
+                        break;
+                }
+                //显示第一个评价匡
+                tp[0].style.display = 'block';
+            }
+        };
+        //鼠标移出事件
+        lis[i].onmouseout = function () {
+            //隐藏第一个评价框
+            tp[0].style.display = 'none';
+            if (!click) { //如果没被点击过
+                //从0到当前鼠标悬停的li的下标(包括)
+                for (var j = 0; j <= this.index; j++) {
+                    //每次修改非0下标的 li 的背景图片
+                    if (j != 0) {
+                        lis[j].style.backgroundImage = 'url(image/星1.png)';
+                    }
+                }
+            }
+        }
+    };
+</script>
+</html>
